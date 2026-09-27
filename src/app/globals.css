@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary-400);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-primary-500);
+}
+
+/* Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary-400) transparent;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --color-primary-50: #f5f3ff;
+  --color-primary-100: #ede9fe;
+  --color-primary-200: #ddd6fe;
+  --color-primary-300: #c4b5fd;
+  --color-primary-400: #a78bfa;
+  --color-primary-500: #8b5cf6;
+  --color-primary-600: #7c3aed;
+  --color-primary-700: #6d28d9;
+  --color-primary-800: #5b21b6;
+  --color-primary-900: #4c1d95;
+
+  --color-primary-50-fg: #0b0b0d;
+  --color-primary-100-fg: #0b0b0d;
+  --color-primary-200-fg: #0b0b0d;
+  --color-primary-300-fg: #0b0b0d;
+  --color-primary-400-fg: #0b0b0d;
+  --color-primary-500-fg: #f5f3ee;
+  --color-primary-600-fg: #f5f3ee;
+  --color-primary-700-fg: #f5f3ee;
+  --color-primary-800-fg: #f5f3ee;
+  --color-primary-900-fg: #f5f3ee;
+}
+
+@theme {
+  --color-primary-50: var(--color-primary-50);
+  --color-primary-100: var(--color-primary-100);
+  --color-primary-200: var(--color-primary-200);
+  --color-primary-300: var(--color-primary-300);
+  --color-primary-400: var(--color-primary-400);
+  --color-primary-500: var(--color-primary-500);
+  --color-primary-600: var(--color-primary-600);
+  --color-primary-700: var(--color-primary-700);
+  --color-primary-800: var(--color-primary-800);
+  --color-primary-900: var(--color-primary-900);
+
+  --color-primary-50-fg: var(--color-primary-50-fg);
+  --color-primary-100-fg: var(--color-primary-100-fg);
+  --color-primary-200-fg: var(--color-primary-200-fg);
+  --color-primary-300-fg: var(--color-primary-300-fg);
+  --color-primary-400-fg: var(--color-primary-400-fg);
+  --color-primary-500-fg: var(--color-primary-500-fg);
+  --color-primary-600-fg: var(--color-primary-600-fg);
+  --color-primary-700-fg: var(--color-primary-700-fg);
+  --color-primary-800-fg: var(--color-primary-800-fg);
+  --color-primary-900-fg: var(--color-primary-900-fg);
+}
