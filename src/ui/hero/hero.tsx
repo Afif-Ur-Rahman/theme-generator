@@ -1,6 +1,6 @@
 "use client";
 
-import { ColorPreview } from "./blocks";
+import { ColorHistory, ColorPreview } from "./blocks";
 import { useHero } from "./useHero";
 
 export const Hero = () => {
@@ -10,6 +10,7 @@ export const Hero = () => {
     l,
     hex,
     values,
+    history,
     copied,
     activeTab,
     randomize,
@@ -17,6 +18,9 @@ export const Hero = () => {
     handleCopy,
     handleColorChange,
     handleHslChange,
+    handleSliderStart,
+    handleSliderEnd,
+    handleHistorySelect,
   } = useHero();
 
   return (
@@ -41,6 +45,7 @@ export const Hero = () => {
           </p>
         </div>
 
+        {/* Tabs */}
         <div className="flex justify-center">
           <ul className="flex overflow-hidden rounded-t-lg border border-b-0 border-primary-200 text-center text-sm font-medium dark:border-primary-800">
             <li>
@@ -60,9 +65,9 @@ export const Hero = () => {
             <li>
               <button
                 type="button"
-                onClick={() => handleTabChange("picker")}
+                onClick={() => handleTabChange("history")}
                 className={`inline-block rounded-tl-none rounded-tr-lg px-5 py-3 transition-all duration-300 ease-in-out ${
-                  activeTab === "picker"
+                  activeTab === "history"
                     ? "bg-primary-100 text-primary-900 dark:bg-primary-800 dark:text-primary-50"
                     : "bg-primary-50 text-primary-500 hover:bg-primary-100 hover:text-primary-900 dark:bg-primary-900 dark:text-primary-400 dark:hover:bg-primary-800 dark:hover:text-primary-50"
                 }`}
@@ -86,23 +91,11 @@ export const Hero = () => {
             onGenerate={randomize}
             onColorChange={handleColorChange}
             onHslChange={handleHslChange}
+            onSliderStart={handleSliderStart}
+            onSliderEnd={handleSliderEnd}
           />
         ) : (
-          <div className="flex min-h-105 items-center justify-center rounded-2xl border border-primary-200 bg-primary-50 dark:border-primary-800 dark:bg-primary-900">
-            <div className="text-center">
-              <p className="font-mono text-xs uppercase tracking-[0.25em] text-primary-500 dark:text-primary-400">
-                History
-              </p>
-
-              <h2 className="mt-3 text-2xl font-semibold text-primary-900 dark:text-primary-50">
-                Coming Soon
-              </h2>
-
-              <p className="mt-2 text-sm text-primary-600 dark:text-primary-300">
-                Pick and fine-tune your color manually.
-              </p>
-            </div>
-          </div>
+          <ColorHistory history={history} onSelect={handleHistorySelect} />
         )}
       </div>
     </section>

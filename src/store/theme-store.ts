@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-import { hexToHsl } from "@/lib/theme/color-utils";
+import { hexToHsl, hslToRgb, rgbToHex } from "@/lib/theme";
 import {
   generateShades,
   SHADE_STEPS,
@@ -8,6 +8,9 @@ import {
 } from "@/lib/theme/generate-shades";
 
 const DARK_MODE_STORAGE_KEY = "theme-generator-dark-mode";
+const COLOR_HISTORY_STORAGE_KEY = "theme-generator-color-history";
+
+const MAX_HISTORY = 10;
 
 function randomHsl() {
   const h = Math.floor(Math.random() * 360);
@@ -15,6 +18,10 @@ function randomHsl() {
   const l = Math.floor(Math.random() * 30) + 35;
 
   return { h, s, l };
+}
+
+function getHexFromHsl(h: number, s: number, l: number) {
+  return rgbToHex(...hslToRgb(h, s, l));
 }
 
 function applyToDocument(scale: ShadeScale) {
@@ -36,11 +43,17 @@ interface ThemeState {
   l: number;
   shades: ShadeScale;
 
+  history: string[];
+
   dark: boolean;
   mounted: boolean;
 
   setHsl: (h: number, s: number, l: number) => void;
   setHex: (hex: string) => boolean;
+
+  addToHistory: (hex: string) => void;
+  selectHistory: (hex: string) => void;
+
   randomize: () => void;
   hydrate: () => void;
 
@@ -59,6 +72,8 @@ export const useThemeStore = create<ThemeState>((set, get) => ({
   s: initial.s,
   l: initial.l,
   shades: generateShades(initial.h, initial.s, initial.l),
+
+  history: [],
 
   dark: false,
   mounted: false,
@@ -86,7 +101,45 @@ export const useThemeStore = create<ThemeState>((set, get) => ({
     return true;
   },
 
+  addToHistory: (hex) => {
+    if (!hex) return;
+
+    const normalized = hex.toUpperCase();
+
+    set((state) => {
+      const history = [
+        normalized,
+        ...state.history.filter((item) => item.toUpperCase() !== normalized),
+      ].slice(0, MAX_HISTORY);
+
+      try {
+        localStorage.setItem(
+          COLOR_HISTORY_STORAGE_KEY,
+          JSON.stringify(history),
+        );
+      } catch {}
+
+      return {
+        history,
+      };
+    });
+  },
+
+  selectHistory: (hex) => {
+    const currentHex = getHexFromHsl(get().h, get().s, get().l);
+
+    if (currentHex.toUpperCase() !== hex.toUpperCase()) {
+      get().addToHistory(currentHex);
+    }
+
+    get().setHex(hex);
+  },
+
   randomize: () => {
+    const currentHex = getHexFromHsl(get().h, get().s, get().l);
+
+    get().addToHistory(currentHex);
+
     const { h, s, l } = randomHsl();
 
     get().setHsl(h, s, l);
@@ -94,6 +147,27 @@ export const useThemeStore = create<ThemeState>((set, get) => ({
 
   hydrate: () => {
     applyToDocument(get().shades);
+
+    try {
+      const stored = localStorage.getItem(COLOR_HISTORY_STORAGE_KEY);
+
+      if (!stored) return;
+
+      const parsed = JSON.parse(stored);
+
+      if (!Array.isArray(parsed)) return;
+
+      const history = parsed
+        .filter(
+          (item): item is string =>
+            typeof item === "string" && /^#[0-9A-Fa-f]{6}$/.test(item),
+        )
+        .map((item) => item.toUpperCase())
+        .filter((item, index, array) => array.indexOf(item) === index)
+        .slice(0, MAX_HISTORY);
+
+      set({ history });
+    } catch {}
   },
 
   initializeTheme: () => {

@@ -1,18 +1,31 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { hslToRgb, rgbToHex } from "@/lib/theme";
 import { useThemeStore } from "@/store";
 
-type HeroTab = "random" | "picker";
+type HeroTab = "random" | "history";
 
 export const useHero = () => {
-  const { h, s, l, mounted, randomize, setHex, setHsl } = useThemeStore();
+  const {
+    h,
+    s,
+    l,
+    mounted,
+    history,
+    randomize,
+    setHex,
+    setHsl,
+    addToHistory,
+    selectHistory,
+  } = useThemeStore();
 
   const [activeTab, setActiveTab] = useState<HeroTab>("random");
   const [hex, setHexInput] = useState("");
   const [copied, setCopied] = useState<string | null>(null);
+
+  const sliderStartRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (!mounted) return;
@@ -29,15 +42,45 @@ export const useHero = () => {
 
   const handleColorChange = (value: string) => {
     const cleaned = value.replace(/[^0-9a-fA-F]/g, "").slice(0, 6);
+
     setHexInput(cleaned ? `#${cleaned}` : "");
 
     if (cleaned.length === 6) {
-      setHex(`#${cleaned}`);
+      const nextHex = `#${cleaned}`;
+
+      if (nextHex.toUpperCase() !== hex.toUpperCase()) {
+        addToHistory(hex);
+      }
+
+      setHex(nextHex);
     }
   };
 
   const handleHslChange = (nextH: number, nextS: number, nextL: number) => {
     setHsl(nextH, nextS, nextL);
+  };
+
+  const handleSliderStart = () => {
+    if (!hex) return;
+
+    sliderStartRef.current = hex;
+  };
+
+  const handleSliderEnd = () => {
+    const previousHex = sliderStartRef.current;
+
+    sliderStartRef.current = null;
+
+    if (!previousHex || !hex) return;
+
+    if (previousHex.toUpperCase() !== hex.toUpperCase()) {
+      addToHistory(previousHex);
+    }
+  };
+
+  const handleHistorySelect = (historyHex: string) => {
+    selectHistory(historyHex);
+    setActiveTab("random");
   };
 
   const handleCopy = async (value: string, key: string) => {
@@ -68,6 +111,7 @@ export const useHero = () => {
     l,
     hex,
     values,
+    history,
     copied,
     mounted,
     activeTab,
@@ -75,6 +119,9 @@ export const useHero = () => {
     handleTabChange,
     handleColorChange,
     handleHslChange,
+    handleSliderStart,
+    handleSliderEnd,
+    handleHistorySelect,
     handleCopy,
   };
 };
