@@ -5,6 +5,9 @@ import { useHero } from "./useHero";
 
 export const Hero = () => {
   const {
+    h,
+    s,
+    l,
     hex,
     values,
     copied,
@@ -12,6 +15,8 @@ export const Hero = () => {
     randomize,
     handleTabChange,
     handleCopy,
+    handleColorChange,
+    handleHslChange,
   } = useHero();
 
   return (
@@ -62,7 +67,7 @@ export const Hero = () => {
                     : "bg-primary-50 text-primary-500 hover:bg-primary-100 hover:text-primary-900 dark:bg-primary-900 dark:text-primary-400 dark:hover:bg-primary-800 dark:hover:text-primary-50"
                 }`}
               >
-                Color Picker
+                History
               </button>
             </li>
           </ul>
@@ -71,17 +76,22 @@ export const Hero = () => {
         {/* Content */}
         {activeTab === "random" ? (
           <ColorPreview
+            h={h}
+            s={s}
+            l={l}
             hex={hex}
             values={values}
             copied={copied}
             onCopy={handleCopy}
             onGenerate={randomize}
+            onColorChange={handleColorChange}
+            onHslChange={handleHslChange}
           />
         ) : (
           <div className="flex min-h-105 items-center justify-center rounded-2xl border border-primary-200 bg-primary-50 dark:border-primary-800 dark:bg-primary-900">
             <div className="text-center">
               <p className="font-mono text-xs uppercase tracking-[0.25em] text-primary-500 dark:text-primary-400">
-                Color Picker
+                History
               </p>
 
               <h2 className="mt-3 text-2xl font-semibold text-primary-900 dark:text-primary-50">

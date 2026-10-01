@@ -8,7 +8,7 @@ import { useThemeStore } from "@/store";
 type HeroTab = "random" | "picker";
 
 export const useHero = () => {
-  const { h, s, l, mounted, randomize, setHex } = useThemeStore();
+  const { h, s, l, mounted, randomize, setHex, setHsl } = useThemeStore();
 
   const [activeTab, setActiveTab] = useState<HeroTab>("random");
   const [hex, setHexInput] = useState("");
@@ -28,13 +28,16 @@ export const useHero = () => {
   };
 
   const handleColorChange = (value: string) => {
-    setHexInput(value);
+    const cleaned = value.replace(/[^0-9a-fA-F]/g, "").slice(0, 6);
+    setHexInput(cleaned ? `#${cleaned}` : "");
 
-    const normalized = value.startsWith("#") ? value : `#${value}`;
-
-    if (/^#[0-9A-Fa-f]{6}$/.test(normalized)) {
-      setHex(normalized);
+    if (cleaned.length === 6) {
+      setHex(`#${cleaned}`);
     }
+  };
+
+  const handleHslChange = (nextH: number, nextS: number, nextL: number) => {
+    setHsl(nextH, nextS, nextL);
   };
 
   const handleCopy = async (value: string, key: string) => {
@@ -71,6 +74,7 @@ export const useHero = () => {
     randomize,
     handleTabChange,
     handleColorChange,
+    handleHslChange,
     handleCopy,
   };
 };

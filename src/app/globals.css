@@ -4,6 +4,8 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Scrollbar */
+
 ::-webkit-scrollbar {
   width: 5px;
 }
@@ -22,9 +24,48 @@ html {
 }
 
 /* Firefox */
+
 html {
   scrollbar-width: thin;
   scrollbar-color: var(--color-primary-400) transparent;
+}
+
+/* HSL Sliders */
+
+input[type="range"].hsl-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 10px;
+  border-radius: 9999px;
+  cursor: pointer;
+}
+
+input[type="range"].hsl-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #0b0b0d;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+}
+
+input[type="range"].hsl-range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #0b0b0d;
+  cursor: pointer;
+}
+
+input[type="range"].hsl-range::-moz-range-track {
+  height: 10px;
+  border-radius: 9999px;
+  background: #232326;
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
