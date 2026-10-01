@@ -1213,6 +1213,11 @@ color-convert@^2.0.1:
   dependencies:
     color-name "~1.1.4"
 
+color-name-list@^14.51.0:
+  version "14.51.0"
+  resolved "https://registry.yarnpkg.com/color-name-list/-/color-name-list-14.51.0.tgz#6a1c54b3968308aca22ba6d6d67364d8e0dc5334"
+  integrity sha512-z+1f72qycJijBEmd88ee836dGeZV8ztePIlPAhk/iavlmfPRG6BrWsJyZGvKkHC32ZW+5dpHbWEEP4y+jjVZIQ==
+
 color-name@~1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.4.tgz#c2a09a87acbde69543de6f63fa3995c826c536a2"

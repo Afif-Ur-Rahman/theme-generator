@@ -1,3 +1,5 @@
+import { getContrastColor } from "@/lib";
+
 interface ColorHexProps {
   hex: string;
   onColorChange: (value: string) => void;
@@ -5,6 +7,7 @@ interface ColorHexProps {
 
 export const ColorHex = ({ hex, onColorChange }: ColorHexProps) => {
   const color = hex || "#000000";
+  const textColor = getContrastColor(color);
 
   return (
     <div
@@ -16,9 +19,7 @@ export const ColorHex = ({ hex, onColorChange }: ColorHexProps) => {
     >
       <span
         className="mb-2 font-mono text-xs uppercase tracking-widest"
-        style={{
-          color: `color-mix(in srgb, ${color} 45%, white)`,
-        }}
+        style={{ color: textColor }}
       >
         Now showing
       </span>
@@ -26,7 +27,7 @@ export const ColorHex = ({ hex, onColorChange }: ColorHexProps) => {
       <div
         className="flex items-center gap-0"
         style={{
-          color: `color-mix(in srgb, ${color} 15%, white)`,
+          color: textColor,
           fontSize: "clamp(2.6rem, 8vw, 5rem)",
         }}
       >
@@ -35,12 +36,7 @@ export const ColorHex = ({ hex, onColorChange }: ColorHexProps) => {
         <input
           type="text"
           value={hex.replace(/^#/, "")}
-          onChange={(e) => {
-            const raw = e.target.value.replace(/[^0-9a-fA-F]/g, "").slice(0, 6);
-
-            onColorChange(raw);
-          }}
-          maxLength={6}
+          onChange={(e) => onColorChange(e.target.value)}
           placeholder="000000"
           spellCheck={false}
           className="w-full min-w-0 bg-transparent font-medium uppercase leading-none tracking-tight outline-none placeholder:opacity-40"
@@ -48,17 +44,15 @@ export const ColorHex = ({ hex, onColorChange }: ColorHexProps) => {
             color: "inherit",
             fontSize: "inherit",
           }}
-          aria-label="HEX color code"
+          aria-label="Color name or HEX color code"
         />
       </div>
 
       <span
         className="mt-3 font-mono text-[10px] uppercase tracking-[0.15em]"
-        style={{
-          color: `color-mix(in srgb, ${color} 45%, white)`,
-        }}
+        style={{ color: textColor }}
       >
-        Paste your color code here
+        Enter a color name or HEX color code
       </span>
     </div>
   );

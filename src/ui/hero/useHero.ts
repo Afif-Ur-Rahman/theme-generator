@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { hslToRgb, rgbToHex } from "@/lib/theme";
+import { getColorValue, hslToRgb, rgbToHex } from "@/lib/theme";
 import { useThemeStore } from "@/store";
 
 type HeroTab = "random" | "history";
@@ -22,10 +22,15 @@ export const useHero = () => {
   } = useThemeStore();
 
   const [activeTab, setActiveTab] = useState<HeroTab>("random");
+
   const [hex, setHexInput] = useState("");
+
   const [copied, setCopied] = useState<string | null>(null);
 
   const sliderStartRef = useRef<string | null>(null);
+  const colorChangeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
 
   useEffect(() => {
     if (!mounted) return;
@@ -36,24 +41,54 @@ export const useHero = () => {
     setHexInput(rgbToHex(...rgb));
   }, [h, s, l, mounted]);
 
+  useEffect(() => {
+    return () => {
+      if (colorChangeTimeoutRef.current) {
+        clearTimeout(colorChangeTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const handleTabChange = (tab: HeroTab) => {
     setActiveTab(tab);
   };
 
   const handleColorChange = (value: string) => {
-    const cleaned = value.replace(/[^0-9a-fA-F]/g, "").slice(0, 6);
+    setHexInput(value);
 
-    setHexInput(cleaned ? `#${cleaned}` : "");
+    if (colorChangeTimeoutRef.current) {
+      clearTimeout(colorChangeTimeoutRef.current);
+    }
 
-    if (cleaned.length === 6) {
-      const nextHex = `#${cleaned}`;
+    if (!value.trim()) return;
 
-      if (nextHex.toUpperCase() !== hex.toUpperCase()) {
+    colorChangeTimeoutRef.current = setTimeout(() => {
+      const input = value.trim();
+
+      const hexValue = input.replace(/^#/, "");
+
+      if (/^[0-9a-fA-F]{6}$/.test(hexValue)) {
+        const nextHex = `#${hexValue}`;
+
+        if (nextHex.toUpperCase() !== hex.toUpperCase()) {
+          addToHistory(hex);
+        }
+
+        setHex(nextHex);
+
+        return;
+      }
+
+      const colorValue = getColorValue(input);
+
+      if (!colorValue) return;
+
+      if (colorValue.toUpperCase() !== hex.toUpperCase()) {
         addToHistory(hex);
       }
 
-      setHex(nextHex);
-    }
+      setHex(colorValue);
+    }, 3000);
   };
 
   const handleHslChange = (nextH: number, nextS: number, nextL: number) => {
