@@ -7,7 +7,7 @@ import { useThemeStore } from "@/store/theme-store";
 
 const NAV_LINKS = [
   { label: "Palette", href: "#palette" },
-  { label: "Export", href: "#export" },
+  { label: "Configuration", href: "#configuration" },
   { label: "FAQ", href: "#faq" },
 ];
 

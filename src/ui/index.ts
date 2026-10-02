@@ -1,4 +1,4 @@
 export * from "./hero";
 export * from "./shades";
-export * from "./export";
+export * from "./configuration";
 export * from "./faq";

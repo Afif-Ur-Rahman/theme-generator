@@ -1,17 +1,20 @@
 "use client";
 
-import { EXPORT_TABS, type ExportTab } from "../constants";
+import { CONFIGURATION_TABS, ConfigurationTab } from "../constants";
 
-interface ExportTabsProps {
-  activeTab: ExportTab;
-  onTabChange: (tab: ExportTab) => void;
+interface ConfigurationTabsProps {
+  activeTab: ConfigurationTab;
+  onTabChange: (tab: ConfigurationTab) => void;
 }
 
-export const ExportTabs = ({ activeTab, onTabChange }: ExportTabsProps) => {
+export const ConfigurationTabs = ({
+  activeTab,
+  onTabChange,
+}: ConfigurationTabsProps) => {
   return (
     <div className="overflow-x-auto border-b border-primary-200 dark:border-primary-800">
       <div className="flex min-w-max gap-1">
-        {EXPORT_TABS.map((tab) => {
+        {CONFIGURATION_TABS.map((tab) => {
           const isActive = activeTab === tab.id;
 
           return (

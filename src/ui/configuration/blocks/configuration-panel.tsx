@@ -1,13 +1,13 @@
 "use client";
 
-import type { ExportGuide } from "../constants";
+import type { ConfigurationGuide } from "../constants";
 import { CodeBlock } from "./code-block";
 
-interface ExportPanelProps {
-  guide: ExportGuide;
+interface ConfigurationPanelProps {
+  guide: ConfigurationGuide;
 }
 
-export const ExportPanel = ({ guide }: ExportPanelProps) => {
+export const ConfigurationPanel = ({ guide }: ConfigurationPanelProps) => {
   return (
     <div className="mt-8">
       <div className="mb-8">

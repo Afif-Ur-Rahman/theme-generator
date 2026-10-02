@@ -4,21 +4,20 @@ import { useState } from "react";
 import { Check, Copy } from "lucide-react";
 
 import { useThemeStore } from "@/store/theme-store";
+import { ConfigurationTab, getConfigurationGuides } from "./constants";
+import { ConfigurationPanel, ConfigurationTabs } from "./blocks";
 
-import { getExportGuides, type ExportTab } from "./constants";
-import { ExportPanel, ExportTabs } from "./blocks";
-
-export const Export = () => {
+export const Configuration = () => {
   const { shades } = useThemeStore();
 
-  const [activeTab, setActiveTab] = useState<ExportTab>("css");
+  const [activeTab, setActiveTab] = useState<ConfigurationTab>("css");
   const [copied, setCopied] = useState(false);
 
   const currentColor = shades[500];
   const hex = currentColor.hex;
   const rgb = currentColor.rgb.join(", ");
 
-  const guides = getExportGuides(hex, rgb);
+  const guides = getConfigurationGuides(hex, rgb);
   const guide = guides[activeTab];
 
   const handleCopyHex = async () => {
@@ -34,7 +33,7 @@ export const Export = () => {
   };
 
   return (
-    <section id="export" className="scroll-mt-16 p-4 sm:px-6 lg:px-8">
+    <section id="configuration" className="scroll-mt-16 p-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         {/* Header */}
         <div className="mb-8 text-center">
@@ -87,10 +86,10 @@ export const Export = () => {
         </div>
 
         {/* Tabs */}
-        <ExportTabs activeTab={activeTab} onTabChange={setActiveTab} />
+        <ConfigurationTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
         {/* Content */}
-        <ExportPanel guide={guide} />
+        <ConfigurationPanel guide={guide} />
       </div>
     </section>
   );

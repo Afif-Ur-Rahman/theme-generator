@@ -1,4 +1,4 @@
-export const EXPORT_TABS = [
+export const CONFIGURATION_TABS = [
   {
     id: "css",
     label: "CSS",
@@ -21,31 +21,31 @@ export const EXPORT_TABS = [
   },
 ] as const;
 
-export type ExportTab = (typeof EXPORT_TABS)[number]["id"];
+export type ConfigurationTab = (typeof CONFIGURATION_TABS)[number]["id"];
 
-export interface ExportCommand {
+export interface ConfigurationCommand {
   manager: string;
   command: string;
 }
 
-export interface ExportStep {
+export interface ConfigurationStep {
   title: string;
   description: string;
-  commands?: ExportCommand[];
+  commands?: ConfigurationCommand[];
   code?: string;
   filename?: string;
   language: string;
 }
 
-export interface ExportGuide {
+export interface ConfigurationGuide {
   label: string;
   description: string;
   packages: string[];
   files: string[];
-  steps: ExportStep[];
+  steps: ConfigurationStep[];
 }
 
-const getInstallCommands = (packages: string): ExportCommand[] => [
+const getInstallCommands = (packages: string): ConfigurationCommand[] => [
   {
     manager: "npm",
     command: `npm install ${packages}`,
@@ -64,10 +64,10 @@ const getInstallCommands = (packages: string): ExportCommand[] => [
   },
 ];
 
-export const getExportGuides = (
+export const getConfigurationGuides = (
   hex: string,
   rgb: string,
-): Record<ExportTab, ExportGuide> => ({
+): Record<ConfigurationTab, ConfigurationGuide> => ({
   css: {
     label: "CSS",
     description:

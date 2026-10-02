@@ -1,5 +1,5 @@
-import { Header } from "@/components";
-import { Export, FAQ, Hero, Shades } from "@/ui";
+import { Footer, Header } from "@/components";
+import { Configuration, FAQ, Hero, Shades } from "@/ui";
 
 export default function Home() {
   return (
@@ -7,8 +7,9 @@ export default function Home() {
       <Header />
       <Hero />
       <Shades />
-      <Export />
+      <Configuration />
       <FAQ />
+      <Footer />
     </main>
   );
 }
