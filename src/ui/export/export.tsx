@@ -34,15 +34,15 @@ export const Export = () => {
   };
 
   return (
-    <section id="export" className="scroll-mt-16 px-4 pb-4 sm:px-6 lg:px-8">
+    <section id="export" className="scroll-mt-16 p-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-8 text-center">
           <h2 className="font-mono text-2xl uppercase tracking-[0.25em] text-primary-950 dark:text-primary-50">
             Configuration
           </h2>
 
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-primary-600 dark:text-primary-300">
+          <p className="mx-auto mt-2 max-w-2xl text-sm leading-6 text-primary-600 dark:text-primary-300">
             Follow the steps below to integrate your generated color into
             popular web technologies and frameworks.
           </p>

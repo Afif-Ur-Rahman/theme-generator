@@ -23,14 +23,14 @@ export const Shades = () => {
   };
 
   return (
-    <section className="px-4 scroll-mt-16 pb-4 sm:px-6 lg:px-8">
+    <section className="px-4 scroll-mt-16 p-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-8">
+        <div className="mb-10 text-center">
           <h2 className="font-mono text-2xl uppercase tracking-[0.25em] text-primary-950 dark:text-primary-50">
             Shades
           </h2>
 
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-primary-600 dark:text-primary-300">
+          <p className="mx-auto mt-2 max-w-2xl text-sm leading-6 text-primary-600 dark:text-primary-300">
             Click any shade to copy the HEX color.
           </p>
         </div>
