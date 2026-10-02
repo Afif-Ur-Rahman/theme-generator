@@ -7,12 +7,11 @@ import { useThemeStore } from "@/store/theme-store";
 
 const NAV_LINKS = [
   { label: "Palette", href: "#palette" },
-  { label: "Shades", href: "#shades" },
   { label: "Export", href: "#export" },
   { label: "FAQ", href: "#faq" },
 ];
 
-export function Header() {
+export const Header = () => {
   const [open, setOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("#palette");
 
@@ -244,4 +243,4 @@ export function Header() {
       </div>
     </>
   );
-}
+};

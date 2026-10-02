@@ -23,10 +23,10 @@ export const Shades = () => {
   };
 
   return (
-    <section id="shades" className="px-4 scroll-mt-16 pb-4 sm:px-6 lg:px-8">
+    <section className="px-4 scroll-mt-16 pb-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8">
-          <h2 className="mt-3 text-2xl font-semibold tracking-tight text-primary-950 dark:text-primary-50">
+          <h2 className="font-mono text-2xl uppercase tracking-[0.25em] text-primary-950 dark:text-primary-50">
             Shades
           </h2>
 
