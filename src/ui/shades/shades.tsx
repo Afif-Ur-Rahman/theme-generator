@@ -23,7 +23,7 @@ export const Shades = () => {
   };
 
   return (
-    <section className="px-4 scroll-mt-16 p-4 sm:px-6 lg:px-8">
+    <section className="scroll-mt-16 bg-primary-50 px-4 py-16 sm:px-6 lg:px-8 dark:bg-primary-800">
       <div className="mx-auto max-w-7xl">
         <div className="mb-10 text-center">
           <h2 className="font-mono text-2xl uppercase tracking-[0.25em] text-primary-950 dark:text-primary-50">
@@ -35,7 +35,7 @@ export const Shades = () => {
           </p>
         </div>
 
-        <div className="overflow-hidden rounded-2xl border border-primary-200 dark:border-primary-800">
+        <div className="overflow-hidden rounded-2xl border border-primary-200 dark:border-primary-700">
           <div className="grid grid-cols-2 sm:grid-cols-5 lg:grid-cols-10">
             {SHADE_STEPS.map((step) => {
               const shade = shades[step];

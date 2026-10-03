@@ -26,7 +26,7 @@ export const Hero = () => {
   return (
     <section
       id="palette"
-      className="relative scroll-mt-16 overflow-hidden p-4 sm:px-6 lg:px-8"
+      className="relative scroll-mt-16 overflow-hidden p-4 pb-16 sm:px-6 lg:px-8"
     >
       <div className="mx-auto max-w-7xl">
         {/* Intro */}

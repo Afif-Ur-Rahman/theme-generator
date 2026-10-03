@@ -6,6 +6,19 @@ import { ChevronDown } from "lucide-react";
 
 import { FAQ_ITEMS } from "./constants";
 
+const faqJsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQ_ITEMS.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer,
+    },
+  })),
+}).replace(/</g, "\\u003c");
+
 export const FAQ = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
@@ -14,7 +27,15 @@ export const FAQ = () => {
   };
 
   return (
-    <section id="faq" className="scroll-mt-16 p-4 sm:px-6 lg:px-8">
+    <section
+      id="faq"
+      className="scroll-mt-16 bg-primary-50 px-4 py-16 sm:px-6 lg:px-8 dark:bg-primary-800"
+    >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: faqJsonLd }}
+      />
+
       <div className="mx-auto max-w-7xl">
         {/* Header */}
         <div className="mb-10 text-center">
@@ -23,25 +44,41 @@ export const FAQ = () => {
           </h2>
 
           <p className="mx-auto mt-2 max-w-2xl text-sm leading-6 text-primary-600 dark:text-primary-300">
-            Everything you need to know about generating, exploring, and
-            exporting your colors.
+            Answers about the color palette generator, shade scale, dark mode,
+            and exporting your color to React, Next.js, Tailwind CSS and
+            Bootstrap.
           </p>
         </div>
 
         {/* Questions */}
-        <div className="divide-y divide-primary-200 overflow-hidden rounded-2xl border border-primary-200 dark:divide-primary-800 dark:border-primary-800">
+        <div className="divide-y divide-primary-200 overflow-hidden rounded-2xl border border-primary-200 bg-white dark:divide-primary-700 dark:border-primary-700 dark:bg-primary-900">
           {FAQ_ITEMS.map((item, index) => {
             const isOpen = openIndex === index;
 
             return (
-              <div key={item.question}>
+              <div
+                key={item.question}
+                className={`transition-colors duration-300 ${
+                  isOpen ? "bg-primary-100 dark:bg-primary-800" : ""
+                }`}
+              >
                 <button
                   type="button"
                   onClick={() => handleToggle(index)}
                   aria-expanded={isOpen}
-                  className="flex w-full items-center justify-between gap-6 px-5 py-5 text-left transition-colors hover:bg-primary-50 sm:px-6 dark:hover:bg-primary-800/60"
+                  className={`flex w-full items-center justify-between gap-6 px-5 py-5 text-left transition-colors sm:px-6 ${
+                    isOpen
+                      ? ""
+                      : "hover:bg-primary-50 dark:hover:bg-primary-800/50"
+                  }`}
                 >
-                  <span className="text-sm font-medium text-primary-900 dark:text-primary-100">
+                  <span
+                    className={`text-sm font-medium ${
+                      isOpen
+                        ? "text-primary-950 dark:text-primary-50"
+                        : "text-primary-900 dark:text-primary-100"
+                    }`}
+                  >
                     {item.question}
                   </span>
 
@@ -68,7 +105,7 @@ export const FAQ = () => {
                       }}
                       className="overflow-hidden"
                     >
-                      <div className="px-5 pb-5 sm:px-6">
+                      <div className="p-5 sm:px-6">
                         <p className="max-w-7xl text-sm leading-6 text-primary-600 dark:text-primary-300">
                           {item.answer}
                         </p>
