@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 import {
   getInstallCommand,
   PACKAGE_MANAGERS,
@@ -12,12 +10,15 @@ import { CodeBlock } from "./code-block";
 
 interface ConfigurationPanelProps {
   guide: ConfigurationGuide;
+  packageManager: PackageManager;
+  onPackageManagerChange: (manager: PackageManager) => void;
 }
 
-export const ConfigurationPanel = ({ guide }: ConfigurationPanelProps) => {
-  // Shared by every install step, so picking pnpm once applies everywhere.
-  const [packageManager, setPackageManager] = useState<PackageManager>("npm");
-
+export const ConfigurationPanel = ({
+  guide,
+  packageManager,
+  onPackageManagerChange,
+}: ConfigurationPanelProps) => {
   return (
     <div className="mt-8">
       <div className="mb-8">
@@ -102,7 +103,9 @@ export const ConfigurationPanel = ({ guide }: ConfigurationPanelProps) => {
                 language="shell"
                 tabs={PACKAGE_MANAGERS}
                 activeTab={packageManager}
-                onTabChange={(tab) => setPackageManager(tab as PackageManager)}
+                onTabChange={(tab) =>
+                  onPackageManagerChange(tab as PackageManager)
+                }
               />
             ) : (
               <CodeBlock

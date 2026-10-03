@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
+import { motion } from "motion/react";
 import { Check, Copy } from "lucide-react";
 
+import { TAB_SPRING } from "../animation";
 interface CodeBlockProps {
   code: string;
   filename?: string;
@@ -21,6 +23,7 @@ export const CodeBlock = ({
   onTabChange,
 }: CodeBlockProps) => {
   const [copied, setCopied] = useState(false);
+  const tabsId = useId();
 
   const handleCopy = async () => {
     try {
@@ -53,13 +56,21 @@ export const CodeBlock = ({
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => onTabChange?.(tab)}
-                  className={`rounded-md px-2.5 py-1 font-mono text-xs transition-colors ${
+                  className={`relative rounded-md px-2.5 py-1 font-mono text-xs transition-colors ${
                     isActive
-                      ? "bg-primary-800 text-primary-50"
+                      ? "text-primary-50"
                       : "text-primary-400 hover:text-primary-100"
                   }`}
                 >
-                  {tab}
+                  {isActive && (
+                    <motion.span
+                      layoutId={`code-tab-${tabsId}`}
+                      transition={TAB_SPRING}
+                      className="absolute inset-0 rounded-md bg-primary-800"
+                    />
+                  )}
+
+                  <span className="relative">{tab}</span>
                 </button>
               );
             })}

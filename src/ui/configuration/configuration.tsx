@@ -1,15 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { AnimatePresence, MotionConfig, motion } from "motion/react";
 import { Check, Copy } from "lucide-react";
 
 import { useThemeStore } from "@/store/theme-store";
+import { EASE } from "./animation";
 import {
   ConfigurationTab,
   getConfigurationGuide,
+  PackageManager,
   StylingOption,
 } from "./constants";
-import { ConfigurationPanel, ConfigurationTabs, StylingTabs } from "./blocks";
+import {
+  AnimatedHeight,
+  ConfigurationPanel,
+  ConfigurationTabs,
+  StylingTabs,
+} from "./blocks";
+import { useState } from "react";
 
 export const Configuration = () => {
   const { shades } = useThemeStore();
@@ -17,6 +25,7 @@ export const Configuration = () => {
   const [activeTab, setActiveTab] = useState<ConfigurationTab>("css");
   const [styling, setStyling] = useState<StylingOption>("css");
   const [copied, setCopied] = useState(false);
+  const [packageManager, setPackageManager] = useState<PackageManager>("npm");
 
   const currentColor = shades[500];
   const hex = currentColor.hex;
@@ -90,14 +99,47 @@ export const Configuration = () => {
         </div>
 
         {/* Tabs */}
-        <ConfigurationTabs activeTab={activeTab} onTabChange={setActiveTab} />
+        <MotionConfig reducedMotion="user">
+          {/* Tabs */}
+          <ConfigurationTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
-        {activeTab !== "css" && (
-          <StylingTabs activeStyling={styling} onStylingChange={setStyling} />
-        )}
+          <AnimatePresence initial={false}>
+            {activeTab !== "css" && (
+              <motion.div
+                key="styling-tabs"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.25, ease: EASE }}
+                className="overflow-hidden"
+              >
+                <StylingTabs
+                  activeStyling={styling}
+                  onStylingChange={setStyling}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-        {/* Content */}
-        <ConfigurationPanel guide={guide} />
+          {/* Content */}
+          <AnimatedHeight>
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={guide.label}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+              >
+                <ConfigurationPanel
+                  guide={guide}
+                  packageManager={packageManager}
+                  onPackageManagerChange={setPackageManager}
+                />
+              </motion.div>
+            </AnimatePresence>
+          </AnimatedHeight>
+        </MotionConfig>
       </div>
     </section>
   );

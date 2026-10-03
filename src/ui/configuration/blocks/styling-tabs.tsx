@@ -1,5 +1,8 @@
 "use client";
 
+import { motion } from "motion/react";
+
+import { TAB_SPRING } from "../animation";
 import { STYLING_OPTIONS, type StylingOption } from "../constants";
 
 interface StylingTabsProps {
@@ -32,13 +35,21 @@ export const StylingTabs = ({
               role="tab"
               aria-selected={isActive}
               onClick={() => onStylingChange(option.id)}
-              className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+              className={`relative rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
                 isActive
-                  ? "bg-white text-primary-950 shadow-sm dark:bg-primary-800 dark:text-primary-50"
+                  ? "text-primary-950 dark:text-primary-50"
                   : "text-primary-600 hover:text-primary-900 dark:text-primary-300 dark:hover:text-primary-50"
               }`}
             >
-              {option.label}
+              {isActive && (
+                <motion.span
+                  layoutId="styling-pill"
+                  transition={TAB_SPRING}
+                  className="absolute inset-0 rounded-lg bg-white shadow-sm dark:bg-primary-800"
+                />
+              )}
+
+              <span className="relative">{option.label}</span>
             </button>
           );
         })}
