@@ -1,6 +1,13 @@
 "use client";
 
-import type { ConfigurationGuide } from "../constants";
+import { useState } from "react";
+
+import {
+  getInstallCommand,
+  PACKAGE_MANAGERS,
+  type ConfigurationGuide,
+  type PackageManager,
+} from "../constants";
 import { CodeBlock } from "./code-block";
 
 interface ConfigurationPanelProps {
@@ -8,6 +15,9 @@ interface ConfigurationPanelProps {
 }
 
 export const ConfigurationPanel = ({ guide }: ConfigurationPanelProps) => {
+  // Shared by every install step, so picking pnpm once applies everywhere.
+  const [packageManager, setPackageManager] = useState<PackageManager>("npm");
+
   return (
     <div className="mt-8">
       <div className="mb-8">
@@ -27,16 +37,22 @@ export const ConfigurationPanel = ({ guide }: ConfigurationPanelProps) => {
             Packages
           </p>
 
-          <div className="mt-4 flex flex-wrap gap-2">
-            {guide.packages.map((pkg) => (
-              <span
-                key={pkg}
-                className="rounded-md bg-primary-100 px-2.5 py-1.5 font-mono text-xs text-primary-700 dark:bg-primary-800 dark:text-primary-200"
-              >
-                {pkg}
-              </span>
-            ))}
-          </div>
+          {guide.packages.length > 0 ? (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {guide.packages.map((pkg) => (
+                <span
+                  key={pkg}
+                  className="rounded-md bg-primary-100 px-2.5 py-1.5 font-mono text-xs text-primary-700 dark:bg-primary-800 dark:text-primary-200"
+                >
+                  {pkg}
+                </span>
+              ))}
+            </div>
+          ) : (
+            <p className="mt-4 text-sm text-primary-600 dark:text-primary-300">
+              No packages required.
+            </p>
+          )}
         </div>
 
         <div className="rounded-2xl border border-primary-200 p-5 dark:border-primary-800">
@@ -65,7 +81,7 @@ export const ConfigurationPanel = ({ guide }: ConfigurationPanelProps) => {
             className="rounded-2xl border border-primary-200 p-5 sm:p-6 dark:border-primary-800"
           >
             <div className="mb-5 flex gap-4">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary-100 font-mono text-xs font-semibold text-primary-700 dark:bg-primary-900 dark:text-primary-200">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary-100 font-mono text-xs font-semibold text-primary-700 dark:bg-primary-800 dark:text-primary-200">
                 {String(index + 1).padStart(2, "0")}
               </span>
 
@@ -80,24 +96,19 @@ export const ConfigurationPanel = ({ guide }: ConfigurationPanelProps) => {
               </div>
             </div>
 
-            {step.commands ? (
-              <div className="space-y-3">
-                {step.commands.map((command) => (
-                  <CodeBlock
-                    key={command.manager}
-                    code={command.command}
-                    filename={command.manager}
-                    language="shell"
-                    copyKey={`${guide.label}-${index}-${command.manager}`}
-                  />
-                ))}
-              </div>
+            {step.install ? (
+              <CodeBlock
+                code={getInstallCommand(packageManager, step.install)}
+                language="shell"
+                tabs={PACKAGE_MANAGERS}
+                activeTab={packageManager}
+                onTabChange={(tab) => setPackageManager(tab as PackageManager)}
+              />
             ) : (
               <CodeBlock
                 code={step.code ?? ""}
                 filename={step.filename}
                 language={step.language}
-                copyKey={`${guide.label}-${index}`}
               />
             )}
           </div>

@@ -4,21 +4,25 @@ import { useState } from "react";
 import { Check, Copy } from "lucide-react";
 
 import { useThemeStore } from "@/store/theme-store";
-import { ConfigurationTab, getConfigurationGuides } from "./constants";
-import { ConfigurationPanel, ConfigurationTabs } from "./blocks";
+import {
+  ConfigurationTab,
+  getConfigurationGuide,
+  StylingOption,
+} from "./constants";
+import { ConfigurationPanel, ConfigurationTabs, StylingTabs } from "./blocks";
 
 export const Configuration = () => {
   const { shades } = useThemeStore();
 
   const [activeTab, setActiveTab] = useState<ConfigurationTab>("css");
+  const [styling, setStyling] = useState<StylingOption>("css");
   const [copied, setCopied] = useState(false);
 
   const currentColor = shades[500];
   const hex = currentColor.hex;
   const rgb = currentColor.rgb.join(", ");
 
-  const guides = getConfigurationGuides(hex, rgb);
-  const guide = guides[activeTab];
+  const guide = getConfigurationGuide(activeTab, styling, shades);
 
   const handleCopyHex = async () => {
     try {
@@ -87,6 +91,10 @@ export const Configuration = () => {
 
         {/* Tabs */}
         <ConfigurationTabs activeTab={activeTab} onTabChange={setActiveTab} />
+
+        {activeTab !== "css" && (
+          <StylingTabs activeStyling={styling} onStylingChange={setStyling} />
+        )}
 
         {/* Content */}
         <ConfigurationPanel guide={guide} />
