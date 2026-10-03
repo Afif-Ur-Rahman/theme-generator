@@ -39,7 +39,7 @@ export const FAQ = () => {
                   type="button"
                   onClick={() => handleToggle(index)}
                   aria-expanded={isOpen}
-                  className="flex w-full items-center justify-between gap-6 px-5 py-5 text-left transition-colors hover:bg-primary-50 sm:px-6 dark:hover:bg-primary-900/40"
+                  className="flex w-full items-center justify-between gap-6 px-5 py-5 text-left transition-colors hover:bg-primary-50 sm:px-6 dark:hover:bg-primary-800/60"
                 >
                   <span className="text-sm font-medium text-primary-900 dark:text-primary-100">
                     {item.question}

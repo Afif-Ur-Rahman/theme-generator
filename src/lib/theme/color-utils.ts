@@ -79,28 +79,38 @@ export function contrastRatio(rgbA: RGB, rgbB: RGB): number {
   return lA > lB ? lA / lB : lB / lA;
 }
 
-const NEAR_BLACK: RGB = [11, 11, 13];
-const NEAR_WHITE: RGB = [245, 243, 238];
+export function hexToRgb(hex: string): RGB {
+  const clean = hex.replace("#", "");
 
-export function pickForeground(rgb: RGB) {
-  const cBlack = contrastRatio(rgb, NEAR_BLACK);
-  const cWhite = contrastRatio(rgb, NEAR_WHITE);
-  const useBlack = cBlack >= cWhite;
-  return {
-    hex: rgbToHex(...(useBlack ? NEAR_BLACK : NEAR_WHITE)),
-    ratio: useBlack ? cBlack : cWhite,
-    passesAA: (useBlack ? cBlack : cWhite) >= 4.5,
-  };
+  return [
+    parseInt(clean.slice(0, 2), 16),
+    parseInt(clean.slice(2, 4), 16),
+    parseInt(clean.slice(4, 6), 16),
+  ];
 }
 
-export const getContrastColor = (hex: string) => {
-  const value = hex.replace("#", "");
+const NEAR_BLACK: RGB = [11, 11, 13];
+const NEAR_WHITE: RGB = [245, 243, 238];
+const PURE_BLACK: RGB = [0, 0, 0];
+const PURE_WHITE: RGB = [255, 255, 255];
 
-  const r = parseInt(value.slice(0, 2), 16);
-  const g = parseInt(value.slice(2, 4), 16);
-  const b = parseInt(value.slice(4, 6), 16);
+function bestOf(rgb: RGB, dark: RGB, light: RGB) {
+  const cDark = contrastRatio(rgb, dark);
+  const cLight = contrastRatio(rgb, light);
 
-  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return cDark >= cLight
+    ? { color: dark, ratio: cDark }
+    : { color: light, ratio: cLight };
+}
 
-  return luminance > 0.5 ? "#000000" : "#ffffff";
-};
+export function pickForeground(rgb: RGB) {
+  let pick = bestOf(rgb, NEAR_BLACK, NEAR_WHITE);
+
+  if (pick.ratio < 4.5) pick = bestOf(rgb, PURE_BLACK, PURE_WHITE);
+
+  return {
+    hex: rgbToHex(...pick.color),
+    ratio: pick.ratio,
+    passesAA: pick.ratio >= 4.5,
+  };
+}

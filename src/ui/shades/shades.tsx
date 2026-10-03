@@ -47,7 +47,7 @@ export const Shades = () => {
                   type="button"
                   onClick={() => handleCopy(shade.hex)}
                   aria-label={`Copy ${shade.hex}`}
-                  className="group relative min-h-32 overflow-hidden text-left transition-transform duration-200 hover:z-10 hover:scale-[1.03] focus:z-10 focus:outline-none focus:ring-none"
+                  className="group relative min-h-32 overflow-hidden text-left transition-transform duration-200 hover:z-10 hover:scale-[1.03] focus:z-10 "
                   style={{
                     backgroundColor: shade.hex,
                     color: shade.fg.hex,
@@ -63,12 +63,12 @@ export const Shades = () => {
                           {isCopied ? (
                             <Check className="h-3.5 w-3.5" />
                           ) : (
-                            <Copy className="h-3.5 w-3.5 opacity-60 transition-opacity group-hover:opacity-100" />
+                            <Copy className="h-3.5 w-3.5" />
                           )}
                         </span>
                       </div>
 
-                      <span className="block font-mono text-[10px] uppercase tracking-wider opacity-70">
+                      <span className="block font-mono text-[10px] uppercase tracking-wider">
                         HEX
                       </span>
 

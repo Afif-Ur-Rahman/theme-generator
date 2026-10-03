@@ -31,7 +31,7 @@ export const ConfigurationPanel = ({ guide }: ConfigurationPanelProps) => {
             {guide.packages.map((pkg) => (
               <span
                 key={pkg}
-                className="rounded-md bg-primary-100 px-2.5 py-1.5 font-mono text-xs text-primary-700 dark:bg-primary-900 dark:text-primary-200"
+                className="rounded-md bg-primary-100 px-2.5 py-1.5 font-mono text-xs text-primary-700 dark:bg-primary-800 dark:text-primary-200"
               >
                 {pkg}
               </span>
@@ -48,7 +48,7 @@ export const ConfigurationPanel = ({ guide }: ConfigurationPanelProps) => {
             {guide.files.map((file) => (
               <span
                 key={file}
-                className="rounded-md bg-primary-100 px-2.5 py-1.5 font-mono text-xs text-primary-700 dark:bg-primary-900 dark:text-primary-200"
+                className="rounded-md bg-primary-100 px-2.5 py-1.5 font-mono text-xs text-primary-700 dark:bg-primary-800 dark:text-primary-200"
               >
                 {file}
               </span>

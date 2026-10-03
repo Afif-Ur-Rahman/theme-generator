@@ -35,7 +35,7 @@ export const CodeBlock = ({ code, filename, language }: CodeBlockProps) => {
             </span>
           )}
 
-          <span className="font-mono text-[10px] uppercase tracking-wider text-primary-500">
+          <span className="font-mono text-[10px] uppercase tracking-wider text-primary-400">
             {language}
           </span>
         </div>

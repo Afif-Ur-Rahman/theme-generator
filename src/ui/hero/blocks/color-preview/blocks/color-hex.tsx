@@ -1,4 +1,4 @@
-import { getContrastColor } from "@/lib";
+import { hexToRgb, pickForeground } from "@/lib/theme";
 
 interface ColorHexProps {
   hex: string;
@@ -6,16 +6,20 @@ interface ColorHexProps {
 }
 
 export const ColorHex = ({ hex, onColorChange }: ColorHexProps) => {
-  const color = hex || "#000000";
-  const textColor = getContrastColor(color);
+  const normalized = hex.startsWith("#") ? hex : `#${hex}`;
+  const isValid = /^#[0-9a-fA-F]{6}$/.test(normalized);
+
+  // While typing a name or a partial hex, fall back to the applied color
+  // and its guaranteed-contrast foreground.
+  const background = isValid ? normalized : "var(--brand-500)";
+  const textColor = isValid
+    ? pickForeground(hexToRgb(normalized)).hex
+    : "var(--brand-500-fg)";
 
   return (
     <div
       className="flex min-h-105 flex-col justify-end overflow-hidden p-6 md:p-10"
-      style={{
-        background: color,
-        transition: "background 0.15s ease",
-      }}
+      style={{ background, transition: "background 0.15s ease" }}
     >
       <span
         className="mb-2 font-mono text-xs uppercase tracking-widest"

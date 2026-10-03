@@ -84,7 +84,7 @@ export const Header = () => {
               className="block h-6 w-6 rounded-md"
               style={{
                 backgroundImage:
-                  "linear-gradient(135deg, var(--color-primary-400) 50%, var(--color-primary-700) 50%)",
+                  "linear-gradient(135deg, var(--brand-400) 50%, var(--brand-700) 50%",
               }}
             />
 
@@ -112,7 +112,7 @@ export const Header = () => {
                   {link.label}
 
                   <span
-                    className={`absolute bottom-1 left-3 right-3 h-0.5 origin-left rounded-full bg-primary-600 transition-transform duration-300 ease-out dark:bg-primary-400 ${
+                    className={`absolute bottom-1 left-3 right-3 h-0.5 origin-left rounded-full bg-accent transition-transform duration-300 ease-out  ${
                       isActive
                         ? "scale-x-100"
                         : "scale-x-0 group-hover:scale-x-100"
@@ -229,7 +229,7 @@ export const Header = () => {
                   {link.label}
 
                   <span
-                    className={`absolute bottom-1 left-3 right-3 h-0.5 origin-left rounded-full bg-primary-600 transition-transform duration-300 ease-out dark:bg-primary-400 ${
+                    className={`absolute bottom-1 left-3 right-3 h-0.5 origin-left rounded-full bg-accent transition-transform duration-300 ease-out  ${
                       isActive
                         ? "scale-x-100"
                         : "scale-x-0 group-hover:scale-x-100"

@@ -73,7 +73,7 @@ export const Configuration = () => {
           <button
             type="button"
             onClick={handleCopyHex}
-            className="flex items-center justify-center gap-2 rounded-lg border border-primary-200 px-3 py-2 font-mono text-xs font-medium text-primary-700 transition-colors hover:bg-primary-50 dark:border-primary-800 dark:text-primary-200 dark:hover:bg-primary-900"
+            className="flex items-center justify-center gap-2 rounded-lg border border-primary-200 px-3 py-2 font-mono text-xs font-medium text-primary-700 transition-colors hover:bg-primary-50 dark:border-primary-800 dark:text-primary-200 dark:hover:bg-primary-800"
           >
             {copied ? (
               <Check className="h-3.5 w-3.5" />

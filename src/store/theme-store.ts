@@ -1,6 +1,14 @@
 import { create } from "zustand";
 
-import { hexToHsl, hslToRgb, rgbToHex } from "@/lib/theme";
+import {
+  accentOn,
+  generateUiScale,
+  hexToHsl,
+  hexToRgb,
+  hslToRgb,
+  rgbToHex,
+  UI_STEPS,
+} from "@/lib/theme";
 import {
   generateShades,
   SHADE_STEPS,
@@ -24,17 +32,33 @@ function getHexFromHsl(h: number, s: number, l: number) {
   return rgbToHex(...hslToRgb(h, s, l));
 }
 
-function applyToDocument(scale: ShadeScale) {
+function applyToDocument(scale: ShadeScale, h: number, s: number, l: number) {
   if (typeof document === "undefined") return;
 
   const root = document.documentElement.style;
 
+  // Real palette
   SHADE_STEPS.forEach((step) => {
-    const shade = scale[step];
-
-    root.setProperty(`--color-primary-${step}`, shade.hex);
-    root.setProperty(`--color-primary-${step}-fg`, shade.fg.hex);
+    root.setProperty(`--brand-${step}`, scale[step].hex);
+    root.setProperty(`--brand-${step}-fg`, scale[step].fg.hex);
   });
+
+  // Contrast-locked UI scale
+  const ui = generateUiScale(h, s);
+
+  UI_STEPS.forEach((step) => {
+    root.setProperty(`--primary-${step}`, ui[step]);
+  });
+
+  // Accent for text/icons, checked against each mode's page background
+  root.setProperty(
+    "--accent-on-light",
+    accentOn([255, 255, 255], h, s, l, "darker"),
+  );
+  root.setProperty(
+    "--accent-on-dark",
+    accentOn(hexToRgb(ui[900]), h, s, l, "lighter"),
+  );
 }
 
 interface ThemeState {
@@ -81,7 +105,7 @@ export const useThemeStore = create<ThemeState>((set, get) => ({
   setHsl: (h, s, l) => {
     const shades = generateShades(h, s, l);
 
-    applyToDocument(shades);
+    applyToDocument(shades, h, s, l);
 
     set({
       h,
@@ -146,7 +170,8 @@ export const useThemeStore = create<ThemeState>((set, get) => ({
   },
 
   hydrate: () => {
-    applyToDocument(get().shades);
+    const { shades, h, s, l } = get();
+    applyToDocument(shades, h, s, l);
 
     try {
       const stored = localStorage.getItem(COLOR_HISTORY_STORAGE_KEY);

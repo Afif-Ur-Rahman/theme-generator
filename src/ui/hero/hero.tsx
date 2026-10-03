@@ -33,12 +33,10 @@ export const Hero = () => {
         <div className="mx-auto mb-12 max-w-3xl text-center">
           <h1 className="text-4xl font-bold tracking-tight text-primary-950 sm:text-5xl lg:text-6xl dark:text-primary-50">
             Create your perfect
-            <span className="block text-primary-600 dark:text-primary-400">
-              color palette.
-            </span>
+            <span className="block text-accent ">color palette.</span>
           </h1>
 
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-primary-600 sm:text-lg dark:text-primary-300">
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-accent sm:text-lg dark:text-primary-300">
             Generate, explore, and fine-tune colors for your next project.
             Adjust the color manually or let the generator find something
             unexpected.
@@ -55,7 +53,7 @@ export const Hero = () => {
                 className={`inline-block rounded-tl-lg rounded-tr-none px-5 py-3 transition-all duration-300 ease-in-out ${
                   activeTab === "random"
                     ? "bg-primary-100 text-primary-900 dark:bg-primary-800 dark:text-primary-50"
-                    : "bg-primary-50 text-primary-500 hover:bg-primary-100 hover:text-primary-900 dark:bg-primary-900 dark:text-primary-400 dark:hover:bg-primary-800 dark:hover:text-primary-50"
+                    : "bg-primary-50 text-primary-500 hover:bg-primary-100 hover:text-primary-900 dark:bg-primary-900  dark:hover:bg-primary-800 dark:hover:text-primary-50"
                 }`}
               >
                 Random Color
@@ -69,7 +67,7 @@ export const Hero = () => {
                 className={`inline-block rounded-tl-none rounded-tr-lg px-5 py-3 transition-all duration-300 ease-in-out ${
                   activeTab === "history"
                     ? "bg-primary-100 text-primary-900 dark:bg-primary-800 dark:text-primary-50"
-                    : "bg-primary-50 text-primary-500 hover:bg-primary-100 hover:text-primary-900 dark:bg-primary-900 dark:text-primary-400 dark:hover:bg-primary-800 dark:hover:text-primary-50"
+                    : "bg-primary-50 text-primary-500 hover:bg-primary-100 hover:text-primary-900 dark:bg-primary-900  dark:hover:bg-primary-800 dark:hover:text-primary-50"
                 }`}
               >
                 History

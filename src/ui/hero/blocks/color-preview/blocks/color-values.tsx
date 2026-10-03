@@ -57,7 +57,7 @@ export const ColorValues = ({
             ) : (
               <Copy
                 size={16}
-                className="text-primary-400 opacity-60 transition-opacity group-hover:opacity-100 dark:text-primary-300"
+                className="transition-opacity text-primary-500 dark:text-primary-300"
               />
             )}
           </button>
@@ -67,7 +67,7 @@ export const ColorValues = ({
       <button
         type="button"
         onClick={onGenerate}
-        className="mt-4 w-full rounded-xl bg-primary-500 px-4 py-3 text-sm font-semibold text-primary-500-fg transition-colors hover:opacity-90"
+        className="mt-4 w-full rounded-xl bg-brand-500 px-4 py-3 text-sm font-semibold text-brand-500-fg transition-colors hover:bg-brand-600 hover:text-brand-600-fg"
       >
         Generate Random Color
       </button>
